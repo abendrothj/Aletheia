@@ -39,29 +39,14 @@ pub fn verify_c2pa(image_data: &[u8], mime_type: &str) -> String {
 
     match Reader::from_stream(mime_type, &mut cursor) {
         Ok(reader) => {
-            // Extract manifest store as JSON
-            match reader.json() {
-                Ok(manifest_json) => {
-                    // Parse the manifest to extract structured data
-                    let result = parse_manifest(&manifest_json);
-                    serde_json::to_string(&result).unwrap_or_else(|_|
-                        r#"{"status":"error","claims":null,"history":[],"thumbnail":null,"raw_manifest":null}"#.to_string()
-                    )
-                },
-                Err(e) => {
-                    // Error extracting manifest
-                    let error_msg = format!("Manifest extraction error: {}", e);
-                    serde_json::to_string(&VerificationResult {
-                        status: "error".to_string(),
-                        claims: None,
-                        history: vec![],
-                        thumbnail: None,
-                        raw_manifest: Some(error_msg),
-                    }).unwrap_or_else(|_|
-                        r#"{"status":"error","claims":null,"history":[],"thumbnail":null,"raw_manifest":null}"#.to_string()
-                    )
-                }
-            }
+            // Extract manifest store as JSON (newer c2pa returns String directly)
+            let manifest_json = reader.json();
+
+            // Parse the manifest to extract structured data
+            let result = parse_manifest(&manifest_json);
+            serde_json::to_string(&result).unwrap_or_else(|_|
+                r#"{"status":"error","claims":null,"history":[],"thumbnail":null,"raw_manifest":null}"#.to_string()
+            )
         },
         Err(_) => {
             // No C2PA data found
@@ -334,7 +319,7 @@ fn extract_thumbnail(manifest: &Value) -> Option<String> {
                     if label.contains("thumbnail") || label.contains("c2pa.thumbnail") {
                         // Thumbnail data might be in 'data' field as base64 or URL
                         if let Some(data) = assertion.get("data") {
-                            if let Some(identifier) = data.get("identifier") {
+                            if let Some(_identifier) = data.get("identifier") {
                                 // It's a reference to another resource
                                 // For now, we'll skip this complex case
                                 continue;
