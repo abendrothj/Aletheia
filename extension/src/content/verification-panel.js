@@ -353,15 +353,16 @@ class AletheiaVerificationPanel extends HTMLElement {
   }
 
   renderCreatorSection(claims) {
-    if (!claims || !claims.creator) return '';
+    if (!claims) return '';
 
     return `
       <div class="section">
         <div class="section-title">Creator Information</div>
         <div class="creator-card">
-          <p><strong>Created by:</strong> ${this.escapeHtml(claims.creator)}</p>
-          <p><strong>Tool:</strong> ${this.escapeHtml(claims.tool || 'Unknown')}</p>
-          <p><strong>Date:</strong> ${this.formatDate(claims.date)}</p>
+          ${claims.title ? `<p><strong>Title:</strong> ${this.escapeHtml(claims.title)}</p>` : ''}
+          ${claims.creator ? `<p><strong>Created by:</strong> ${this.escapeHtml(claims.creator)}</p>` : ''}
+          ${claims.tool ? `<p><strong>Tool:</strong> ${this.escapeHtml(claims.tool)}</p>` : ''}
+          ${claims.date ? `<p><strong>Date:</strong> ${this.formatDate(claims.date)}</p>` : ''}
         </div>
       </div>
     `;

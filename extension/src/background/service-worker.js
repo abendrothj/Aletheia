@@ -35,6 +35,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       const result = await verifyImageWithWASM(arrayBuffer, imageUrl);
       console.log('Verification result:', result);
 
+      // Update statistics
+      await updateStats(result.status);
+
       // Send result to content script for UI display
       chrome.tabs.sendMessage(tab.id, {
         action: 'showVerificationResult',
@@ -126,4 +129,24 @@ function detectMimeType(buffer, url) {
 
   // Default to JPEG
   return 'image/jpeg';
+}
+
+// Update verification statistics
+async function updateStats(status) {
+  try {
+    const stats = await chrome.storage.local.get(['imagesChecked', 'credentialsFound']);
+
+    const imagesChecked = (stats.imagesChecked || 0) + 1;
+    let credentialsFound = stats.credentialsFound || 0;
+
+    // Increment if we found valid credentials (not 'none' or 'error')
+    if (status === 'valid' || status === 'invalid' || status === 'expired') {
+      credentialsFound++;
+    }
+
+    await chrome.storage.local.set({ imagesChecked, credentialsFound });
+    console.log(`Stats updated: ${imagesChecked} checked, ${credentialsFound} found`);
+  } catch (error) {
+    console.error('Failed to update stats:', error);
+  }
 }

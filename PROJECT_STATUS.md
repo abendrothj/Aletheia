@@ -98,9 +98,10 @@ Aletheia/
 
 ### Future Enhancements (Post-MVP)
 
-- [ ] Enhanced C2PA manifest parsing (currently stub data)
-- [ ] Thumbnail extraction from C2PA data
-- [ ] Validation status checking (expired certificates, etc.)
+- [x] Enhanced C2PA manifest parsing - **COMPLETE**
+- [x] Validation status checking (expired certificates, etc.) - **COMPLETE**
+- [x] Statistics tracking - **COMPLETE**
+- [ ] Thumbnail extraction from C2PA data (partial - needs resource resolution)
 - [ ] Better error handling for edge cases
 - [ ] Performance optimization for large images
 - [ ] Caching mechanism for repeated verifications
@@ -109,13 +110,13 @@ Aletheia/
 
 ## Current Limitations
 
-1. **C2PA Parsing**: The Rust code extracts the manifest but returns stub data. Full parsing needs implementation per C2PA spec.
+1. **Icons**: Placeholder icons need to be created (see SETUP.md).
 
-2. **Icons**: Placeholder icons need to be created.
+2. **Testing**: Needs real-world testing with actual C2PA images.
 
-3. **Testing**: Needs real-world testing with actual C2PA images.
+3. **Thumbnail Extraction**: Basic implementation exists but doesn't handle resource references (need to resolve URIs to actual image data).
 
-4. **Statistics**: Stats tracking implemented but needs service worker persistence.
+4. **Advanced Validation**: Currently detects expired/invalid but could provide more detailed validation messages.
 
 ## Testing Plan
 
