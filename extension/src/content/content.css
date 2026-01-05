@@ -1,0 +1,7 @@
+/* Aletheia Content Script Styles */
+/* Minimal global styles - most styling is in shadow DOM */
+
+aletheia-verification-panel {
+  /* Ensure panel is above everything */
+  z-index: 2147483647 !important;
+}

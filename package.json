@@ -1,0 +1,23 @@
+{
+  "name": "aletheia",
+  "version": "1.0.0",
+  "description": "C2PA Image Verification Browser Extension",
+  "scripts": {
+    "build:wasm": "./scripts/build-wasm.sh",
+    "build:chrome": "node scripts/build-extension.js chrome",
+    "build:firefox": "node scripts/build-extension.js firefox",
+    "build:all": "npm run build:wasm && npm run build:chrome && npm run build:firefox",
+    "test:chrome": "echo 'Load extension/dist-chrome in Chrome'",
+    "test:firefox": "web-ext run -s extension/dist-firefox",
+    "package:chrome": "bestzip extension/aletheia-chrome.zip extension/dist-chrome/*",
+    "package:firefox": "web-ext build -s extension/dist-firefox -a extension/"
+  },
+  "keywords": ["c2pa", "image-verification", "content-credentials", "browser-extension"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "webextension-polyfill": "^0.10.0",
+    "web-ext": "^7.9.0",
+    "bestzip": "^2.2.1"
+  }
+}

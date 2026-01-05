@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aletheia - Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Aletheia</h1>
+      <p class="subtitle">Image Provenance Verifier</p>
+    </header>
+
+    <main>
+      <section class="stats">
+        <h2>Statistics</h2>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-value" id="imagesChecked">0</span>
+            <span class="stat-label">Images Checked</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="credentialsFound">0</span>
+            <span class="stat-label">Credentials Found</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="successRate">0%</span>
+            <span class="stat-label">Success Rate</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings">
+        <h2>Settings</h2>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="showNoCredentials">
+            <span>Show indicator on images without credentials</span>
+          </label>
+          <p class="setting-description">
+            Display a notification when an image has no C2PA data
+          </p>
+        </div>
+      </section>
+
+      <section class="info">
+        <h2>About C2PA</h2>
+        <p>
+          Content Credentials (C2PA) provide cryptographic proof of an image's origin,
+          creator, and edit history. This technology helps combat misinformation and verify authenticity.
+        </p>
+        <p class="note">
+          <strong>Note:</strong> Most images don't have C2PA credentials yet.
+          The technology is rapidly being adopted by Adobe, camera manufacturers, and AI platforms.
+        </p>
+      </section>
+
+      <section class="test-sources">
+        <h2>Test Sources</h2>
+        <p>Try Aletheia on these sites with C2PA images:</p>
+        <ul class="links">
+          <li><a href="https://contentcredentials.org/verify" target="_blank">Content Credentials Verify Tool</a></li>
+          <li><a href="https://stock.adobe.com" target="_blank">Adobe Stock</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Version 1.0.0 | <a href="https://github.com/anthropics/aletheia" target="_blank">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

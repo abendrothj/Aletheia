@@ -1,0 +1,21 @@
+# Node
+node_modules/
+package-lock.json
+
+# Build outputs
+extension/dist-chrome/
+extension/dist-firefox/
+extension/src/wasm/
+*.zip
+
+# Rust
+target/
+Cargo.lock
+
+# OS
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
