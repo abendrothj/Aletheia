@@ -18,13 +18,20 @@ async function loadStats() {
 
 // Load and display settings
 async function loadSettings() {
-  const settings = await chrome.storage.local.get(['showNoCredentials']);
+  const settings = await chrome.storage.local.get(['showNoCredentials', 'autoVerify']);
   const showNoCredentials = settings.showNoCredentials || false;
+  const autoVerify = settings.autoVerify || false;
 
   document.getElementById('showNoCredentials').checked = showNoCredentials;
+  document.getElementById('autoVerify').checked = autoVerify;
 }
 
 // Save settings when changed
+document.getElementById('autoVerify').addEventListener('change', async (e) => {
+  await chrome.storage.local.set({ autoVerify: e.target.checked });
+  console.log('Auto-verify setting saved:', e.target.checked);
+});
+
 document.getElementById('showNoCredentials').addEventListener('change', async (e) => {
   await chrome.storage.local.set({ showNoCredentials: e.target.checked });
   console.log('Setting saved:', e.target.checked);

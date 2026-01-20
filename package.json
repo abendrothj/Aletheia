@@ -7,17 +7,28 @@
     "build:chrome": "node scripts/build-extension.js chrome",
     "build:firefox": "node scripts/build-extension.js firefox",
     "build:all": "npm run build:wasm && npm run build:chrome && npm run build:firefox",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "test:chrome": "echo 'Load extension/dist-chrome in Chrome'",
     "test:firefox": "web-ext run -s extension/dist-firefox",
     "package:chrome": "bestzip extension/aletheia-chrome.zip extension/dist-chrome/*",
     "package:firefox": "web-ext build -s extension/dist-firefox -a extension/"
   },
-  "keywords": ["c2pa", "image-verification", "content-credentials", "browser-extension"],
+  "keywords": [
+    "c2pa",
+    "image-verification",
+    "content-credentials",
+    "browser-extension"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "webextension-polyfill": "^0.10.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "bestzip": "^2.2.1",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "web-ext": "^7.9.0",
-    "bestzip": "^2.2.1"
+    "webextension-polyfill": "^0.10.0"
   }
 }

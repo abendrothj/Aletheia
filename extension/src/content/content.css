@@ -5,3 +5,22 @@ aletheia-verification-panel {
   /* Ensure panel is above everything */
   z-index: 2147483647 !important;
 }
+
+.aletheia-image-overlay {
+  /* Positioned dynamically via JS */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.aletheia-image-overlay[data-status="loading"] {
+  animation: aletheia-pulse 2s ease-in-out infinite;
+}
+
+@keyframes aletheia-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}

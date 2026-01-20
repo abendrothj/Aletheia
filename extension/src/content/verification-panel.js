@@ -437,4 +437,7 @@ class AletheiaVerificationPanel extends HTMLElement {
   }
 }
 
-customElements.define('aletheia-verification-panel', AletheiaVerificationPanel);
+// Only define the custom element if it hasn't been defined yet
+if (!customElements.get('aletheia-verification-panel')) {
+  customElements.define('aletheia-verification-panel', AletheiaVerificationPanel);
+}

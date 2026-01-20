@@ -24,6 +24,11 @@ const overrides = {
         id: 'aletheia@truthverify.org',
         strict_min_version: '109.0'
       }
+    },
+    // Firefox uses 'scripts' instead of 'service_worker' for background
+    background: {
+      scripts: ['background/service-worker.js'],
+      type: 'module'
     }
   },
   chrome: {

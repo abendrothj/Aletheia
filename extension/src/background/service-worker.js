@@ -15,11 +15,67 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Aletheia installed successfully');
 });
 
+// Handle messages from content script (for auto-verify)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'verifyImageUrl') {
+    const imageUrl = message.imageUrl;
+    const tabId = sender.tab.id;
+    
+    // Verify the image
+    (async () => {
+      try {
+        // Notify content script that verification is starting
+        chrome.tabs.sendMessage(tabId, {
+          action: 'verificationStarted',
+          imageUrl
+        }).catch(() => {});
+
+        // Fetch image with extension privileges (bypasses CORS)
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch image: ${response.status}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        // Verify with WASM
+        const result = await verifyImageWithWASM(arrayBuffer, imageUrl);
+
+        // Update statistics
+        await updateStats(result.status);
+
+        // Send result to content script for UI display
+        chrome.tabs.sendMessage(tabId, {
+          action: 'showVerificationResult',
+          imageUrl,
+          result
+        });
+      } catch (error) {
+        console.error('Auto-verification error:', error);
+        chrome.tabs.sendMessage(tabId, {
+          action: 'showVerificationError',
+          imageUrl,
+          error: error.message
+        }).catch(() => {});
+      }
+    })();
+    
+    return true; // Keep message channel open for async response
+  }
+});
+
 // Handle context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'verifyImage') {
     const imageUrl = info.srcUrl;
     console.log('Verifying image:', imageUrl);
+
+    // Notify content script that verification is starting
+    console.log('Sending verificationStarted message to tab:', tab.id);
+    chrome.tabs.sendMessage(tab.id, {
+      action: 'verificationStarted',
+      imageUrl
+    }).catch(err => console.error('Failed to send verificationStarted:', err));
 
     try {
       // Fetch image with extension privileges (bypasses CORS)
